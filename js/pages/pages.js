@@ -45,6 +45,10 @@ import {
   communityTopicChip,
   commentRow,
   escapeHtml,
+  bodyParagraphs,
+  postPhotoGallery,
+  postStatsBar,
+  reviewBreakdown,
 } from '../components/community.js';
 import {
   getAllCommunityPosts,
@@ -342,13 +346,24 @@ export function pageCommunityPost(parts) {
     : '';
 
   return `
-  ${headerSub('Thread', { subtitle: `${comments.length} replies`, back: '#/search' })}
+  ${headerSub('Thread', { subtitle: `${comments.length} replies · ${(post.views || 0).toLocaleString('en-IN')} views`, back: '#/search' })}
   <article class="comm-post comm-post--detail">
-    <p class="comm-post-meta mut xs pad">${escapeHtml(post.author)} · ${escapeHtml(locName())}</p>
+    <div class="comm-author-row pad">
+      <span class="comm-author-av" aria-hidden="true">${escapeHtml((post.author || 'U')[0])}</span>
+      <div>
+        <b>${escapeHtml(post.author)}</b>
+        <span class="mut xs">${escapeHtml(post.authorBadge || 'Foodie')} · ${escapeHtml(locName())} · ${escapeHtml(
+    post.type === 'question' ? 'Question' : post.type === 'review' ? 'Review' : 'Discussion'
+  )}</span>
+      </div>
+    </div>
     <div class="pad" style="padding-top:0">
     <h1 class="comm-detail-title">${escapeHtml(post.title)}</h1>
-    <p class="comm-detail-body">${escapeHtml(post.body)}</p>
-    ${post.rating ? `<div class="comm-post-rating">${starsHtml(post.rating)}</div>` : ''}
+    ${postStatsBar(post, { score, replyCount: comments.length })}
+    <div class="comm-detail-body">${bodyParagraphs(post.body)}</div>
+    ${postPhotoGallery(post.photos || [])}
+    ${post.rating ? `<div class="comm-post-rating">${starsHtml(post.rating)} <span class="mut sm">Overall ${post.rating} / 5</span></div>` : ''}
+    ${reviewBreakdown(post.reviewMeta)}
     <div class="comm-post-foot" style="border-top:none;padding-top:0">
       <div class="comm-vote">
         <button type="button" class="comm-vote-btn ${vote === 'up' ? 'on' : ''}" data-vote-up="${post.id}">▲</button>
@@ -362,7 +377,7 @@ export function pageCommunityPost(parts) {
   </article>
 
   <section class="comm-comments pad">
-    <h2 class="comm-comments-title">Replies</h2>
+    <h2 class="comm-comments-title">Discussion (${comments.length})</h2>
     <form id="comm-comment-form" class="comm-comment-form">
       <textarea class="field-input" name="body" rows="3" placeholder="Share what you know about this area…" required></textarea>
       <button type="submit" class="btn btn-primary btn-block">Post reply</button>

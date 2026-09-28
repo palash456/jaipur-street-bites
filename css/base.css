@@ -6,6 +6,8 @@
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -16,6 +18,8 @@ body {
   line-height: 1.5;
   padding-bottom: 0;
   min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 img {

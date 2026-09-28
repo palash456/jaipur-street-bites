@@ -2,7 +2,8 @@ import { load, save } from '../utils/storage.js';
 import { resolveFoodImage } from '../utils/images.js';
 import { orderId } from '../utils/format.js';
 import { HISTORICAL_ORDERS } from '../data/catalog.js';
-import { SEED_POSTS, SEED_COMMENTS } from '../data/community.js';
+import { SEED_POSTS } from '../data/community.js';
+import { SEED_COMMENTS, enrichCommunityPost } from '../data/community-enrichment.js';
 
 const ORDER_STEPS = [
   { key: 'placed', label: 'Order Placed', desc: 'Order received' },
@@ -75,7 +76,8 @@ function initialState() {
   };
 }
 
-/** @typedef {{ id: string, type: string, topicId: string, locationId: string, title: string, body: string, author: string, authorBadge?: string, createdAt: string, upvotes: number, downvotes: number, answerCount?: number, vendorId?: string|null, rating?: number|null, pinned?: boolean }} CommunityPostSeed */
+/** @typedef {{ id: string, type: string, topicId: string, locationId: string, title: string, body: string, author: string, authorBadge?: string, createdAt: string, upvotes: number, downvotes: number, answerCount?: number, vendorId?: string|null, rating?: number|null, pinned?: boolean, cuisineId?: string, tags?: string[], hasPhoto?: boolean, views?: number, photos?: string[], reviewMeta?: object|null }} CommunityPostSeed */
+/** @typedef {{ id: string, author: string, body: string, createdAt: string, upvotes?: number, authorBadge?: string, photo?: string|null, rating?: number|null }} CommunityCommentSeed */
 
 let state = initialState();
 const listeners = new Set();
@@ -472,7 +474,7 @@ export function setVendorAccount(id) {
 }
 
 export function getAllCommunityPosts() {
-  return [...state.communityPosts, ...SEED_POSTS].sort(
+  return [...state.communityPosts.map((p) => enrichCommunityPost({ ...p, views: p.views ?? 0, photos: p.photos || [] })), ...SEED_POSTS.map(enrichCommunityPost)].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 }
@@ -570,7 +572,10 @@ export function createCommunityPost({ type, title, body, topicId, locationId, ve
     answerCount: 0,
     vendorId: vendorId || null,
     rating: rating ? parseFloat(rating) : null,
-    pinned: false,
+    hasPhoto: false,
+    views: 1,
+    photos: [],
+    tags: [],
   };
   state.communityPosts.unshift(post);
   state.communityVotes[post.id] = 'up';

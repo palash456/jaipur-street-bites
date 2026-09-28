@@ -282,9 +282,138 @@
 .comm-post-main h3 {
   font-size: 17px;
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 8px;
   line-height: 1.4;
   letter-spacing: -0.02em;
+}
+
+.comm-post-excerpt {
+  margin: 0 0 10px;
+  line-height: 1.45;
+}
+
+.comm-post-thumb-row {
+  margin: 8px 0 0;
+  border-radius: 12px;
+  overflow: hidden;
+  max-height: 140px;
+}
+
+.comm-post-thumb-row .comm-post-photo {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+.comm-stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 14px;
+}
+
+.comm-detail-body p {
+  margin: 0 0 12px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.comm-post-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 16px 0;
+  position: relative;
+}
+
+.comm-post-gallery .comm-post-photo {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.comm-photo-count {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.comm-author-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 8px;
+}
+
+.comm-author-av {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--brand-soft, rgba(232, 89, 12, 0.2));
+  color: var(--brand, #e8590c);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.comm-review-box {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.comm-review-box-title {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+
+.comm-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.comm-review-grid b {
+  display: block;
+  font-size: 15px;
+  margin-top: 2px;
+}
+
+.comm-comment-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent, #e8590c);
+  margin-left: 4px;
+}
+
+.comm-comment-rating {
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.comm-comment-photo {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 12px;
+  margin-top: 10px;
+  display: block;
+  aspect-ratio: 4/3;
+  object-fit: cover;
 }
 
 .comm-post-rating {

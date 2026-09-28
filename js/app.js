@@ -271,12 +271,6 @@ function renderShellFixed() {
     const stickyTotal = document.getElementById('sticky-cart-total');
     if (stickyTotal) stickyTotal.textContent = formatINR(t.total);
   }
-  const main = document.getElementById('app-main');
-  if (main) {
-    const showBar = sticky?.classList.contains('show');
-    const extra = showBar ? 56 : 0;
-    main.style.paddingBottom = `calc(var(--bottom-nav-h) + ${20 + extra}px + env(safe-area-inset-bottom, 0px))`;
-  }
 }
 
 register('/', () => pageHome());

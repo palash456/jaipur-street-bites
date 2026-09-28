@@ -526,50 +526,6 @@ export const SEED_POSTS = [
   },
 ];
 
-export const SEED_COMMENTS = {
-  'post-1': [
-    {
-      id: 'c-1-1',
-      author: 'Neha',
-      body: 'Try the cart opposite Sunrise Apartments gate — open by 6:30. Not on Google Maps.',
-      createdAt: '2026-09-27T07:00:00.000Z',
-      upvotes: 28,
-    },
-    {
-      id: 'c-1-2',
-      author: 'Vikram',
-      body: 'Rawat Mishthan opens kitchen early but queue starts 7:30. Weekdays before 7:15 is manageable.',
-      createdAt: '2026-09-27T07:15:00.000Z',
-      upvotes: 15,
-    },
-  ],
-  'post-2': [
-    {
-      id: 'c-2-1',
-      author: 'FoodieJaipur',
-      body: 'Which cart — the one with blue tarp or pink sign?',
-      createdAt: '2026-09-26T15:00:00.000Z',
-      upvotes: 8,
-    },
-  ],
-  'post-4': [
-    {
-      id: 'c-4-1',
-      author: 'ChaatCam',
-      body: 'Teekha first. Always. Sweet pani is dessert.',
-      createdAt: '2026-09-28T05:00:00.000Z',
-      upvotes: 52,
-    },
-    {
-      id: 'c-4-2',
-      author: 'Priya',
-      body: 'Alternate — that’s the real Walled City move.',
-      createdAt: '2026-09-28T05:30:00.000Z',
-      upvotes: 48,
-    },
-  ],
-};
-
 export function getStory(id) {
   return COMMUNITY_STORIES.find((s) => s.id === id);
 }

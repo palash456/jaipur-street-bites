@@ -31,6 +31,73 @@ function locLabel(locationId) {
   return LOCATIONS.find((l) => l.id === locationId)?.name || 'Jaipur';
 }
 
+function formatViews(n) {
+  const v = n || 0;
+  if (v >= 1000) return `${(v / 1000).toFixed(v >= 10000 ? 0 : 1)}k views`;
+  return `${v} views`;
+}
+
+export function bodyParagraphs(body) {
+  return String(body || '')
+    .split(/\n\n+/)
+    .filter(Boolean)
+    .map((p) => `<p>${escapeHtml(p.trim())}</p>`)
+    .join('');
+}
+
+export function postPhotoGallery(photos, { compact = false } = {}) {
+  if (!photos?.length) return '';
+  const cls = compact ? 'comm-post-thumb-row' : 'comm-post-gallery';
+  const imgs = photos
+    .slice(0, compact ? 1 : 4)
+    .map(
+      (src) =>
+        `<img src="${src}" alt="" class="comm-post-photo street-food-photo" ${IMG_ATTRS} loading="lazy" />`
+    )
+    .join('');
+  const extra = !compact && photos.length > 1 ? `<span class="comm-photo-count">+${photos.length} photos</span>` : '';
+  return `<div class="${cls}">${imgs}${extra}</div>`;
+}
+
+export function postStatsBar(post, { score, replyCount }) {
+  const views = formatViews(post.views);
+  return `
+  <div class="comm-stats-bar mut sm">
+    <span>${views}</span>
+    <span>·</span>
+    <span>${replyCount} replies</span>
+    <span>·</span>
+    <span>▲ ${score}</span>
+    ${post.rating ? `<span>·</span><span>${starsHtml(post.rating)}</span>` : ''}
+  </div>`;
+}
+
+export function reviewBreakdown(meta) {
+  if (!meta) return '';
+  return `
+  <div class="comm-review-box">
+    <h3 class="comm-review-box-title">Review breakdown</h3>
+    <div class="comm-review-grid">
+      <div><span class="mut xs">Paid</span><b>${escapeHtml(meta.pricePaid)}</b></div>
+      <div><span class="mut xs">Wait</span><b>~${meta.waitMin} min</b></div>
+      <div><span class="mut xs">Taste</span><b>${'★'.repeat(meta.taste)}</b></div>
+      <div><span class="mut xs">Hygiene</span><b>${'★'.repeat(meta.hygiene)}</b></div>
+      <div><span class="mut xs">Service</span><b>${'★'.repeat(meta.service)}</b></div>
+      <div><span class="mut xs">Value</span><b>${'★'.repeat(meta.value)}</b></div>
+    </div>
+    ${
+      meta.pros?.length
+        ? `<p class="sm"><b>Pros:</b> ${escapeHtml(meta.pros.join(' · '))}</p>`
+        : ''
+    }
+    ${
+      meta.cons?.length
+        ? `<p class="sm mut"><b>Cons:</b> ${escapeHtml(meta.cons.join(' · '))}</p>`
+        : ''
+    }
+  </div>`;
+}
+
 export function storyRing(story, { seen = false } = {}) {
   return `
   <button type="button" class="story-ring ${seen ? 'seen' : ''}" data-open-story="${story.id}" aria-label="Story by ${escapeHtml(story.user)}">
@@ -62,14 +129,17 @@ export function communityPostCard(post) {
   const comments = getCommentsForPost(post.id);
   const count = comments.length || post.answerCount || 0;
   const typeShort = post.type === 'question' ? 'Q' : post.type === 'review' ? 'Review' : 'Talk';
-  const meta = `${typeShort} · ${locLabel(post.locationId)} · ${timeAgo(post.createdAt)}`;
+  const meta = `${typeShort} · ${locLabel(post.locationId)} · ${timeAgo(post.createdAt)} · ${formatViews(post.views)}`;
+  const excerpt = post.body.split(/\n\n/)[0]?.slice(0, 120) || post.body.slice(0, 120);
 
   return `
   <article class="comm-post" data-post-id="${post.id}">
     <a href="#/community/post/${post.id}" class="comm-post-main">
       <p class="comm-post-meta mut xs">${escapeHtml(meta)}${post.pinned ? ' · <span class="comm-pin">Pinned</span>' : ''}</p>
       <h3>${escapeHtml(post.title)}</h3>
-      ${post.rating ? `<div class="comm-post-rating">${starsHtml(post.rating)}</div>` : ''}
+      <p class="comm-post-excerpt mut sm">${escapeHtml(excerpt)}${post.body.length > excerpt.length ? '…' : ''}</p>
+      ${post.rating ? `<div class="comm-post-rating">${starsHtml(post.rating)} <span class="mut xs">${post.rating}</span></div>` : ''}
+      ${post.photos?.length ? postPhotoGallery(post.photos, { compact: true }) : ''}
     </a>
     <div class="comm-post-foot">
       <div class="comm-vote" role="group" aria-label="Vote">
@@ -84,13 +154,19 @@ export function communityPostCard(post) {
 }
 
 export function commentRow(c, postId) {
+  const badge = c.authorBadge ? `<span class="comm-comment-badge">${escapeHtml(c.authorBadge)}</span>` : '';
+  const rating = c.rating ? `<span class="comm-comment-rating">${starsHtml(c.rating)}</span>` : '';
+  const photo = c.photo
+    ? `<img src="${c.photo}" alt="" class="comm-comment-photo street-food-photo" ${IMG_ATTRS} loading="lazy" />`
+    : '';
   return `
   <div class="comm-comment">
     <div class="comm-comment-head">
-      <b>${escapeHtml(c.author)}</b>
+      <span><b>${escapeHtml(c.author)}</b> ${badge} ${rating}</span>
       <span class="mut xs">${timeAgo(c.createdAt)}</span>
     </div>
     <p>${escapeHtml(c.body)}</p>
+    ${photo}
     <div class="comm-comment-actions">
       <span class="mut xs">▲ ${c.upvotes || 0}</span>
       <button type="button" class="btn-link btn-sm" data-reply-to="${postId}">Reply</button>
