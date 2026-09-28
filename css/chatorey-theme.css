@@ -32,8 +32,6 @@
   --max-w: 430px;
   --header-h: 0px;
   --bottom-nav-h: 72px;
-  --bottom-fab-lift: 22px;
-  --bottom-chrome-h: calc(var(--bottom-nav-h) + var(--bottom-fab-lift));
   --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
@@ -50,10 +48,9 @@ body {
   max-width: 430px;
   width: 100%;
   margin: 0 auto;
-  flex: 1 1 auto;
-  min-height: 0;
-  height: 100%;
+  min-height: 100vh;
   min-height: 100dvh;
+  height: 100dvh;
   max-height: 100dvh;
   background: var(--bg);
   overflow: hidden;
@@ -61,83 +58,24 @@ body {
   flex-direction: column;
   box-shadow: 0 0 0 8px #15151b, 0 20px 60px rgba(0, 0, 0, 0.35);
   --bottom-nav-h: 78px;
-  --bottom-chrome-h: calc(var(--bottom-nav-h) + var(--bottom-fab-lift));
-}
-
-/* Header + scrollable main + bottom chrome — must fill remaining viewport height */
-.app-shell-frame {
-  flex: 1 1 0%;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  width: 100%;
-  overflow: hidden;
 }
 
 @media (min-width: 520px) {
   body {
     padding: 16px 0;
-    box-sizing: border-box;
-    align-items: center;
   }
-
-  .app-shell {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 430px;
-    height: calc(100dvh - 32px);
-    max-height: calc(100dvh - 32px);
-    min-height: calc(100dvh - 32px);
-  }
-}
-
-.app-header-slot {
-  flex: 0 0 auto;
-  z-index: 80;
-  min-height: 0;
-}
-
-.app-header-slot:empty {
-  display: none;
-}
-
-.app-header-slot .app-top {
-  position: relative;
-  top: auto;
-  margin-bottom: 0;
-  z-index: 1;
 }
 
 #app-main {
-  flex: 1 1 0%;
+  flex: 1;
   max-width: none;
   margin: 0;
-  padding: 0 0 calc(12px + var(--bottom-fab-lift));
+  padding: 0 0 calc(var(--bottom-nav-h) + 16px + env(safe-area-inset-bottom, 0px));
   min-height: 0;
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  background: var(--bg);
-}
-
-/* Short pages: stretch content block to at least the full scroll area */
-#app-main > :first-child {
-  flex: 1 0 auto;
-  min-height: 100%;
-}
-
-#app-main > .empty-state {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100%;
 }
 
 #app-main::-webkit-scrollbar {
@@ -169,10 +107,6 @@ body {
   padding-top: env(safe-area-inset-top, 0px);
   margin-bottom: 12px;
   flex-shrink: 0;
-}
-
-#app-main > .app-top {
-  position: sticky;
 }
 
 .app-top--sub {
@@ -966,26 +900,24 @@ body {
   cursor: pointer;
 }
 
-/* Bottom chrome: flex child so it never overlaps scrollable main */
+/* Anchored inside .app-shell (same as Chatorey #nav) — not viewport fixed */
 .app-shell .bottom-nav {
-  position: relative;
-  flex: 0 0 auto;
-  left: auto;
-  right: auto;
-  bottom: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
   background: var(--card);
   box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.25);
-  padding: calc(6px + var(--bottom-fab-lift)) 2px calc(10px + env(safe-area-inset-bottom, 0px));
+  padding: 6px 2px calc(10px + env(safe-area-inset-bottom, 0px));
   z-index: 100;
   border-radius: 20px 20px 0 0;
   border-top: 1px solid var(--line);
   min-height: var(--bottom-nav-h);
   pointer-events: auto;
-  margin-top: 0;
 }
 
 .app-shell .bottom-nav a {
@@ -1051,18 +983,16 @@ body {
 }
 
 .app-shell .sticky-cart {
-  position: relative;
-  flex: 0 0 auto;
-  left: auto;
-  right: auto;
-  bottom: auto;
-  margin: 0 12px 8px;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--bottom-nav-h) + 12px + env(safe-area-inset-bottom, 0px));
   width: auto;
   max-width: calc(100% - 24px);
   transform: none;
   background: var(--green);
   border-radius: 14px;
-  z-index: 90;
+  z-index: 40;
   display: none;
   align-items: center;
   justify-content: space-between;
@@ -1091,7 +1021,7 @@ body {
   position: absolute;
   left: 50%;
   right: auto;
-  bottom: calc(var(--bottom-chrome-h) + 16px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--bottom-nav-h) + 16px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%) translateY(160%);
   background: #1a1a22;
   color: #f2f2f6;

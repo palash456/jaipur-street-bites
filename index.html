@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/chatorey-theme.css?v=19" />
+    <link rel="stylesheet" href="css/chatorey-theme.css?v=20" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/components.css" />
@@ -25,19 +25,17 @@
 
       <select id="location-select" class="visually-hidden" tabindex="-1" aria-hidden="true"></select>
 
-      <div class="app-shell-frame">
-        <header id="app-header" class="app-header-slot" aria-live="polite"></header>
-        <main id="app-main"></main>
+      <main id="app-main"></main>
 
-        <div id="sticky-cart" class="sticky-cart">
-          <div>
-            <strong>Your cart</strong>
-            <span id="sticky-cart-total"></span>
-          </div>
-          <button type="button" id="sticky-cart-btn" class="btn btn-primary">View cart</button>
+      <div id="sticky-cart" class="sticky-cart">
+        <div>
+          <strong>Your cart</strong>
+          <span id="sticky-cart-total"></span>
         </div>
+        <button type="button" id="sticky-cart-btn" class="btn btn-primary">View cart</button>
+      </div>
 
-        <nav class="bottom-nav" aria-label="Main">
+      <nav class="bottom-nav" aria-label="Main">
         <a href="#/" data-nav="home">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
           <span>Home</span>
@@ -58,8 +56,7 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>
           <span>Profile</span>
         </a>
-        </nav>
-      </div>
+      </nav>
 
       <div id="modal-backdrop" class="modal-backdrop">
         <div id="modal-root" class="modal" role="dialog"></div>
@@ -67,6 +64,6 @@
       <div id="toast" class="toast" role="status"></div>
     </div>
 
-    <script type="module" src="js/app.js?v=19"></script>
+    <script type="module" src="js/app.js?v=20"></script>
   </body>
 </html>

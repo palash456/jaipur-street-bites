@@ -23,18 +23,6 @@ export function getParams() {
   return parseHash().params;
 }
 
-/** Keep `.app-top` in the fixed header slot so main scroll does not move it. */
-function mountPageHeader(main) {
-  const headerSlot = document.getElementById('app-header');
-  if (!headerSlot) return;
-  const headerEl = main.querySelector(':scope > .app-top');
-  if (headerEl) {
-    headerSlot.replaceChildren(headerEl);
-  } else {
-    headerSlot.replaceChildren();
-  }
-}
-
 export function renderRoute() {
   const { path, params } = parseHash();
   current = path;
@@ -63,8 +51,6 @@ export function renderRoute() {
   if (handler) {
     try {
       main.innerHTML = handler({ path, parts, params });
-      mountPageHeader(main);
-      main.scrollTop = 0;
       document.dispatchEvent(new CustomEvent('page:mounted', { detail: { path, parts, params } }));
     } catch (err) {
       console.error(err);
