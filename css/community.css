@@ -775,3 +775,34 @@
 .comm-filter-summary .btn-link {
   margin-left: auto;
 }
+
+/* Floating reply button on thread detail */
+.comm-reply-fab {
+  position: fixed;
+  right: 20px;
+  bottom: calc(var(--bottom-chrome-h, 88px) + 12px + env(safe-area-inset-bottom, 0px));
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--brand, #c2185b), #e8590c);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(194, 24, 91, 0.45);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 85;
+  padding: 0;
+}
+
+.comm-reply-fab:active {
+  transform: scale(0.96);
+}
+
+.comm-reply-fab svg {
+  stroke: #fff;
+}
+
+.page-community--thread {
+  padding-bottom: calc(var(--bottom-chrome-h, 88px) + 72px + env(safe-area-inset-bottom, 0px));
+}

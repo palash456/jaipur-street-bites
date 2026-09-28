@@ -256,8 +256,11 @@ function renderShellFixed() {
   const sticky = document.getElementById('sticky-cart');
   if (sticky) {
     const path = (location.hash.slice(1) || '/').split('?')[0];
+    const communityPath =
+      path === '/search' || path === '/discover' || path.startsWith('/community');
     const hideBar =
       cartCount <= 0 ||
+      communityPath ||
       path.includes('cart') ||
       path.includes('checkout') ||
       path.includes('confirm') ||
@@ -558,6 +561,14 @@ function showReelModal(reelId) {
   }, 200);
 }
 
+function focusCommunityReplyForm() {
+  const form = document.getElementById('comm-comment-form');
+  const ta = form?.querySelector('textarea');
+  if (!form || !ta) return;
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => ta.focus(), 350);
+}
+
 function bindCommunityEvents() {
   document.querySelectorAll('[data-community-compose]').forEach((el) => {
     el.addEventListener('click', () => showCommunityComposeModal(el.getAttribute('data-community-compose')));
@@ -624,8 +635,11 @@ function bindCommunityEvents() {
   });
   document.querySelectorAll('[data-reply-to]').forEach((el) => {
     el.addEventListener('click', () => {
-      document.getElementById('comm-comment-form')?.querySelector('textarea')?.focus();
+      focusCommunityReplyForm();
     });
+  });
+  document.querySelectorAll('[data-focus-reply]').forEach((el) => {
+    el.addEventListener('click', () => focusCommunityReplyForm());
   });
   document.querySelectorAll('[data-open-community-filter]').forEach((el) => {
     el.addEventListener('click', () => showCommunityFilterModal());

@@ -255,11 +255,6 @@ export function pageSearch(params) {
           : `<div class="empty-state comm-empty"><h3>No threads yet</h3><p class="mut sm">Ask about food in ${escapeHtml(areaName)}.</p><button type="button" class="btn btn-primary btn-sm" data-community-compose="question">Ask</button></div>`
       }
     </div>
-
-    <a href="#/discover" class="comm-discover-bar">
-      <span>Order street food near ${escapeHtml(areaName)}</span>
-      <span class="comm-discover-arrow" aria-hidden="true">→</span>
-    </a>
   </div>`;
 }
 
@@ -347,6 +342,7 @@ export function pageCommunityPost(parts) {
 
   return `
   ${headerSub('Thread', { subtitle: `${comments.length} replies · ${(post.views || 0).toLocaleString('en-IN')} views`, back: '#/search' })}
+  <div class="page-community page-community--thread">
   <article class="comm-post comm-post--detail">
     <div class="comm-author-row pad">
       <span class="comm-author-av" aria-hidden="true">${escapeHtml((post.author || 'U')[0])}</span>
@@ -385,7 +381,11 @@ export function pageCommunityPost(parts) {
     <div class="comm-comment-list" data-comment-post="${post.id}">
       ${comments.length ? comments.map((c) => commentRow(c, post.id)).join('') : '<p class="mut sm">Be the first to reply.</p>'}
     </div>
-  </section>`;
+  </section>
+  </div>
+  <button type="button" class="comm-reply-fab" data-focus-reply aria-label="Post a reply">
+    ${icon('plus', 26)}
+  </button>`;
 }
 
 export function pageCommunityReels() {

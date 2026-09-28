@@ -50,8 +50,10 @@ body {
   max-width: 430px;
   width: 100%;
   margin: 0 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
   min-height: 100dvh;
-  height: 100dvh;
   max-height: 100dvh;
   background: var(--bg);
   overflow: hidden;
@@ -62,16 +64,27 @@ body {
   --bottom-chrome-h: calc(var(--bottom-nav-h) + var(--bottom-fab-lift));
 }
 
+/* Header + scrollable main + bottom chrome — must fill remaining viewport height */
+.app-shell-frame {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
 @media (min-width: 520px) {
   body {
     padding: 16px 0;
     box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
+    align-items: center;
   }
 
   .app-shell {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 430px;
     height: calc(100dvh - 32px);
     max-height: calc(100dvh - 32px);
     min-height: calc(100dvh - 32px);
@@ -96,11 +109,12 @@ body {
 }
 
 #app-main {
-  flex: 1 1 auto;
+  flex: 1 1 0%;
   max-width: none;
   margin: 0;
   padding: 0 0 calc(12px + var(--bottom-fab-lift));
   min-height: 0;
+  align-self: stretch;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -108,6 +122,13 @@ body {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  background: var(--bg);
+}
+
+/* Short pages: stretch content block to at least the full scroll area */
+#app-main > :first-child {
+  flex: 1 0 auto;
+  min-height: 100%;
 }
 
 #app-main > .empty-state {
@@ -116,7 +137,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 12rem;
+  min-height: 100%;
 }
 
 #app-main::-webkit-scrollbar {
@@ -964,7 +985,7 @@ body {
   border-top: 1px solid var(--line);
   min-height: var(--bottom-nav-h);
   pointer-events: auto;
-  margin-top: auto;
+  margin-top: 0;
 }
 
 .app-shell .bottom-nav a {
