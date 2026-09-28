@@ -1,0 +1,131 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 249, 245, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  min-height: var(--header-h);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.brand-mark {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #fff;
+  font-weight: 800;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+}
+
+.brand-text {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.location-label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+#location-select {
+  flex: 1;
+  max-width: 220px;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: 0.9rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-btn {
+  position: relative;
+  color: inherit;
+  padding: 0.35rem;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.65rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.cart-badge.show {
+  display: flex;
+}
+
+.app-main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 1rem 1.25rem 2rem;
+  min-height: 60vh;
+}
+
+/* Bottom nav + sticky cart: see css/chatorey-theme.css (.app-shell scoped) */
+
+.sticky-cart {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  box-shadow: var(--shadow-md);
+}
+
+.sticky-cart.show {
+  display: flex;
+}
+
+@media (min-width: 900px) {
+  .hide-mobile {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 899px) {
+  .hide-mobile {
+    display: none;
+  }
+
+  .brand-text {
+    display: none;
+  }
+}
